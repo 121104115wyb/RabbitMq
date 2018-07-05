@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.btzh.rabbitmq">
+
+    <!-- 百度定位所需要的权限（如果下面权限中有已经申请过的，请忽略） -->
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_PHONE_SINTERNETWIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
+    <application
+        android:name=".core.LocationApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ya"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ya"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".view.activity.LaunchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".receive.MqReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="Mq_Receive_Message" />
+                <action android:name="Mq_LocationByWifi_Message" />
+                <action android:name="Mq_LocationByGps_Message" />
+                <action android:name="Mq_Location_Message" />
+                <action android:name="com.yc.sqt.NOTIFY_CANCEL" />
+                <action android:name="com.yc.sqt.NOTIFICATION_OPENED" />
+            </intent-filter>
+        </receiver>
+        <!-- 接收rabbitmq的消息 -->
+        <service
+            android:name=".service.MqService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <!-- 百度的定位service -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <!-- 百度的定位service -->
+
+        <!-- 输入你申请的Ak值（debug 版本）start//iR3cvRvLM6MEGb0h4WQTB35b0CERDe3v -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="2OYifRG8PegD4O2ZyNOAWpNmGdrsxr65" />
+        <!-- 输入你申请的Ak值（debug 版本）end -->
+        <service
+            android:name=".service.LocService"
+            android:enabled="true"
+            android:exported="true" />
+    </application>
+
+</manifest>
